@@ -1,6 +1,8 @@
 #!/Library/Frameworks/Python.framework/Versions/Current/bin/python3
 # -*- coding: utf-8 -*-
 
+# Script to return the path to the latest created file in a folder
+
 # arguments:
 # 1: <path-to-folder>
 
