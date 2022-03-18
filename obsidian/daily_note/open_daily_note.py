@@ -8,10 +8,7 @@ import os
 import sys
 import yaml
 
-
-print("version:", sys.version)
 dir = os.path.dirname(__file__) + "/"
-print("dir:", dir)
 config_yaml = open(dir + '../CONFIG.yaml')
 config = yaml.load(config_yaml, Loader=yaml.FullLoader)
 
