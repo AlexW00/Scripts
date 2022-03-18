@@ -1,6 +1,9 @@
 #!/Library/Frameworks/Python.framework/Versions/Current/bin/python3
 # -*- coding: utf-8 -*-
 
+# Script to quickly add a bullet point to your daily note
+# TODO: change line 32 to your header of choice (after which the bullet point will be inserted), currently it's ### Thoughts
+
 # arguments:
 # 1: <thought-string>
 

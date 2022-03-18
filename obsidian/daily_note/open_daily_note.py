@@ -1,6 +1,8 @@
 #!/Library/Frameworks/Python.framework/Versions/Current/bin/python3
 # -*- coding: utf-8 -*-
 
+# Script to quickly open your daily note in a markdown editor of your choice
+
 import subprocess
 import os
 import sys
