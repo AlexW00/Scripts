@@ -1,4 +1,4 @@
-#!/Library/Frameworks/Python.framework/Versions/Current/bin/python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # Script to quickly add a bullet point to your daily note
@@ -33,4 +33,4 @@ with open(daily_note_filepath, "r+") as f:
 	f.seek(0)
 	f.write(text)
 	f.truncate()
-	print(text_to_append)
+	print(text_to_append, end="")
