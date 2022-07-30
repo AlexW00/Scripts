@@ -1,18 +1,14 @@
-## Scripts
+# 📃 Scripts
 
-My personal scripts (mostly python because I'm too lazy to properly learn bash)
-Proper guide coming soon.
+Scripts I use on my Unix machines.
 
-### Usage
+## Bash
 
-To use the scripts you need to:
+- [dot.sh](./Bash/dot.sh)**: quickly open dotfiles
 
-1. change the python shebang (`#!/Library/Frameworks/Python.framework/Versions/Current/bin/python3` at the top of each python file) to a the path of your python executable
-2. Create a /obsidian/CONFIG.yaml file with the following structure:
+## Python
 
-```
----
-dailyNote:
-  dailyNoteFolder: "path-to-your-daily-note-folder"
-  dailyNoteOpenAppPath: "path-to-the-app-you-wish-to-open-daily-notes-with"
-```
+### Utils
+
+- [get_latest_file.py](./Python/Utils/get_latest_file.py): returs the latest file in a given directory
+- [insert_after_regex.py](./Python/Utils/insert_after_regex.py): inserts a string into a file after a regex match
