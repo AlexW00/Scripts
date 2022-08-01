@@ -4,7 +4,7 @@ Scripts I use on my Unix machines.
 
 ## Bash
 
-- [dot.sh](./Bash/dot.sh)**: quickly open dotfiles
+- [dot.sh](./Bash/dot.sh): quickly open dotfiles
 
 ## Python
 
