@@ -6,3 +6,4 @@
 [submodule "Bash/cli-gpt"]
 	path = Bash/cli-gpt
 	url = https://github.com/AlexW00/cli-gpt.git
+	branch = master
