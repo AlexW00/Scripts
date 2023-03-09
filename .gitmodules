@@ -1,3 +1,8 @@
 [submodule "Bash/dot-launcher"]
 	path = Bash/dot-launcher
 	url = https://github.com/AlexW00/dot-launcher.git
+[submodule "./Bash/dot-launcher"]
+	branch = master
+[submodule "Bash/cli-gpt"]
+	path = Bash/cli-gpt
+	url = https://github.com/AlexW00/cli-gpt.git
