@@ -1,16 +1,15 @@
 #!/bin/bash
 
 # check if $CHEATSHEETS is set
-
 if [ -z "$CHEATSHEETS" ]; then
     echo "Error: \$CHEATSHEETS is not set"
     exit 1
 fi
 
-nested_levels="3" # number of nested levels to search for dotfiles
-cheatsheet_file_extensions=(".txt" ".md")
+nested_levels="3" # number of nested levels to search for cheatsheets
+cheatsheet_file_extensions=(".txt" ".md") # filetypes of the cheatsheets
 
-# check if "fzf" and "git" are installed
+# check dependencies
 dependencies="fzf"
 for dependency in $dependencies; do
     if ! command -v "$dependency" >/dev/null 2>&1; then
@@ -22,14 +21,14 @@ done
 #exit on error
 set -e
 
-# check if the dotfile dir exists
+# check if the dir exists
 if [ ! -d "$CHEATSHEETS" ]; then
     # exit 
-    echo "Dot directory does not exist: $CHEATSHEETS"
+    echo "Cheatsheet directory does not exist: $CHEATSHEETS"
     exit 1
 fi
 
-# creates a regex pattern for the dotfile extensions
+# creates a regex pattern to match the file extensions
 buildRegex() {
     regex=""
     for ext in "${cheatsheet_file_extensions[@]}"; do
@@ -43,19 +42,18 @@ buildRegex() {
     echo "$regex"
 }
 
-# returns all dotfiles in the dot directory, that match the dotfile regex
+# returns all cheatsheets in the dir
 getCheatsheetFiles() {
     # get all files from x nested directories
     files=$(find "$CHEATSHEETS" -maxdepth $nested_levels -type f)
 
-    # remove all files that don't end with one of the dot file extensions regex
+    # remove all files that don't end with one of the cheatsheet file extensions regex
     files=$(echo "$files" | grep -E "$(buildRegex)")
     echo "$files"
 }
 
 
-
-# show the files using fzf
+# show the files using fzf, TODO: pdf/image preview?
 files=$(getCheatsheetFiles)
 if [ -n "$files" ]; then
     files=$(echo "$files" | fzf --pointer="*" --ansi --preview="./fzf_preview.sh {}")
