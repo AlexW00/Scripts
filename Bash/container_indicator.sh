@@ -16,5 +16,5 @@ if [ ! -z "${container}" ]; then
     exit 0
 fi
 
-echo ""
+echo "λ"
 exit 0
