@@ -70,13 +70,14 @@ def set_hours(day, hours):
     with open(day_file, 'w') as file:
         file.write(str(hours))
 
-def add_hours_to_today(hours, do_add=True):
-    today = get_today_day()
-    current_hours = get_hours(today)
+def add_hours_to_day(day, hours, do_add=True):
+    current_hours = get_hours(day)
     new_hours = current_hours + hours if do_add else current_hours - hours
-    set_hours(today, new_hours)
+    set_hours(day, new_hours)
+    print(f"Adjusted {day}'s hours by {hours:.2f}h to {new_hours:.2f}h.")
 
-    
+def add_hours_to_today(hours, do_add=True):
+    add_hours_to_day(get_today_day(), hours, do_add)
 
 # date
 
@@ -110,7 +111,7 @@ def get_hours_worked_today():
     return get_hours(get_today_day())
 
 def get_hours_remaining_today():
-    return get_average_hours_per_day() - get_hours_worked_today()
+    return get_average_hours_to_work_per_day() - get_hours_worked_today()
 
 # commands
 
@@ -127,22 +128,26 @@ def start_work():
     add_hours_to_today(hours)
 
 def adjust_today(hours):
-    if len(hours) < 2:
-        print("Invalid adjustment, must be of the form +2 or -1.")
-        return
-
-    if hours[0] == '+':
+    if hours.startswith('+'):
         add_hours_to_today(float(hours[1:]))
-    elif hours[0] == '-':
+    elif hours.startswith('-'):
         add_hours_to_today(float(hours[1:]), do_add=False)
     else:
-        print("Invalid adjustment, must be of the form +2 or -1.")
+        add_hours_to_today(float(hours))
+
+def adjust_day(day, hours):
+    if hours.startswith('+'):
+        add_hours_to_day(day, float(hours[1:]))
+    elif hours.startswith('-'):
+        add_hours_to_day(day, float(hours[1:]), do_add=False)
+    else:
+        add_hours_to_day(day, float(hours))
 
 def today_summary():
     # PRETTY PRINT!
     print(f"=== Summary: Today ===")
     print(f"Today: {get_hours_worked_today():.2f}h")
-    print(f"Remaining: {get_hours_remaining_today():.2f}h")
+    print(f"Remaining: {get_hours_remaining_today():.2f}h ({get_average_hours_to_work_per_day():.2f}h/day)")
 
 def week_summary():
     print(f"=== Summary: Week ===")
@@ -153,6 +158,9 @@ def week_overview():
     print(f"=== Overview: Week ===")
     for day in get_workdays_of_current_week():
         print(f"{day.strftime('%A')}: {get_hours(day.strftime('%Y-%m-%d')):.2f}h ({get_hours(day.strftime('%Y-%m-%d')) - get_average_hours_per_day():+.2f}h)")
+
+def is_valid_adjustment(hours):
+    return hours.startswith('+') or hours.startswith('-') or hours.isdigit()
 
 def main():
     argument = os.sys.argv[1] if len(os.sys.argv) > 1 else None
@@ -171,7 +179,16 @@ def main():
         print()
         today_summary()
     elif argument == 'adjust':
-        adjust_today(os.sys.argv[2])
+        today = get_today_day()
+        input_day = input(f"Which day do you want to adjust? [default: {today}] ")
+        if input_day == '':
+            input_day = today
+
+        input_hours = input("How many hours do you want to add/subtract? ")
+        if is_valid_adjustment(input_hours):
+            adjust_today(input_hours)
+        else:
+            print(f"Invalid argument: {input_hours}")
     else:
         print(f"Invalid argument: {argument}")
 
