@@ -1,6 +1,7 @@
 import os
 import datetime
 import json
+import time
 
 # config options (in ~/.config/work_tracker.json)
 # time_entries_dir: directory where the time entries are stored
@@ -34,7 +35,7 @@ def get_work_days():
 
 def get_hours_per_week():
     config = get_config()
-    return config.get('hours_per_week', 40)
+    return config.get('hours_per_week', 38)
 
 def get_average_hours_per_day():
     return get_hours_per_week() / len(get_work_days())
@@ -105,7 +106,7 @@ def get_hours_remaining_this_week():
     return get_hours_per_week() - get_hours_worked_this_week()
 
 def get_average_hours_to_work_per_day():
-    return get_hours_remaining_this_week() / len(get_ramaining_workdays_of_current_week())
+    return get_hours_remaining_this_week() / (len(get_ramaining_workdays_of_current_week()))
 
 def get_hours_worked_today():
     return get_hours(get_today_day())
@@ -118,14 +119,27 @@ def get_hours_remaining_today():
 def start_work():
     start_time = datetime.datetime.now()
     try:
-        input("Press enter to stop the timer.")
-    except KeyboardInterrupt:
-        pass
-    end_time = datetime.datetime.now()
+        interval_no = 0
+        while True:
+            interval_no += 1
+            # clear terminal
+            os.system('clear')
+            current_time = datetime.datetime.now()
+            hours = (current_time - start_time).total_seconds() / 3600
+            today_summary()
+            print(f"\rSession: {hours:.2f}h", end="")
 
-    hours = (end_time - start_time).total_seconds() / 3600
-    print(f"You worked for {hours:.2f} hours.")
-    add_hours_to_today(hours)
+            if interval_no % 60 == 0:
+                # update the day file every 60 seconds
+                hours_worked_so_far = get_hours_worked_today()
+                set_hours(get_today_day(), hours_worked_so_far + 1/60)
+            time.sleep(1)
+    except KeyboardInterrupt:  # stop the timer when Ctrl+C is pressed
+        pass
+    finally:
+        end_time = datetime.datetime.now()
+        hours = (end_time - start_time).total_seconds() / 3600
+        print(f"\nWorked {hours:.2f}h in this session.")
 
 def adjust_today(hours):
     if hours.startswith('+'):
