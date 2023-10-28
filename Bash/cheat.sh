@@ -56,7 +56,7 @@ getCheatsheetFiles() {
 # show the files using fzf, TODO: pdf/image preview?
 files=$(getCheatsheetFiles)
 if [ -n "$files" ]; then
-    files=$(echo "$files" | fzf --pointer="*" --ansi --preview="./fzf_preview.sh {}")
+    files=$(echo "$files" | fzf --pointer="*" --ansi --preview='cat {}')
     if [ -n "$files" ]; then
         $EDITOR "$files"
     fi

@@ -7,6 +7,7 @@ elif [ ! -z "$CONTAINER_ID" ]; then
     echo "📦️ $CONTAINER_ID"
 elif [ ! -z "${container}" ]; then
     echo "📦️ ${container}"
-else
-    echo "λ"
 fi
+
+echo "λ"
+exit 0
